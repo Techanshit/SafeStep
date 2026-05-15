@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SafeStep – Smart Emergency Survival Assistant. AI-powered emergency guidance, SOS panic mode, voice instructions, and offline support." />
+  <meta name="theme-color" content="#030508" />
+  <title>SafeStep – Smart Emergency Survival Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <div class="loader-ring r2"></div>
+      <div class="loader-ring r3"></div>
+      <div class="loader-logo">SAFESTEP</div>
+      <div class="loader-status" id="loaderStatus">Initializing systems...</div>
+    </div>
+  </div>
+
+  <!-- ALERT TICKER -->
+  <div class="alert-ticker">
+    <span class="ticker-label">⚠ LIVE ALERTS</span>
+    <div class="ticker-track">
+      <div class="ticker-content">
+        &nbsp;&nbsp;&nbsp;🔴 ACTIVE: Earthquake advisory in Zone 4 &nbsp;|&nbsp; 🟡 WARNING: Heavy rainfall expected — flood risk elevated &nbsp;|&nbsp; 🔴 HIGH ALERT: Heatwave conditions in northern districts &nbsp;|&nbsp; 🟢 INFO: Emergency response teams deployed in sector 7 &nbsp;|&nbsp; 🔴 ACTIVE: Road closure — National Highway 48 &nbsp;|&nbsp; 🟡 WARNING: Air quality index critical — stay indoors &nbsp;|&nbsp; 🔴 FLASH: Cyclone advisory issued for coastal zones &nbsp;|&nbsp; 🟢 UPDATE: NDRF teams on standby — all regions &nbsp;|&nbsp;
+        🔴 ACTIVE: Earthquake advisory in Zone 4 &nbsp;|&nbsp; 🟡 WARNING: Heavy rainfall expected — flood risk elevated &nbsp;|&nbsp; 🔴 HIGH ALERT: Heatwave conditions in northern districts &nbsp;|&nbsp; 🟢 INFO: Emergency response teams deployed in sector 7 &nbsp;|&nbsp;
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <div class="logo-pulse"></div>
+        <span>SAFE<span class="accent">STEP</span></span>
+      </div>
+    </div>
+    <div class="nav-clock" id="liveClock">00:00:00</div>
+    <ul class="nav-links">
+      <li><a href="#emergency">Emergency</a></li>
+      <li><a href="#sos">SOS</a></li>
+      <li><a href="#voice">Voice AI</a></li>
+      <li><a href="#contacts">Contacts</a></li>
+    </ul>
+    <button class="nav-sos-btn" onclick="triggerSOS()">🚨 SOS</button>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <canvas id="particleCanvas"></canvas>
+    <div class="hero-radar">
+      <div class="radar-ring r1"></div>
+      <div class="radar-ring r2"></div>
+      <div class="radar-ring r3"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-dot d1"></div>
+      <div class="radar-dot d2"></div>
+      <div class="radar-dot d3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>SYSTEM ONLINE — ALL UNITS ACTIVE</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="title-line">SAFE</span>
+        <span class="title-line accent-title">STEP</span>
+      </h1>
+      <p class="hero-sub">Smart Emergency Survival Assistant</p>
+      <p class="hero-desc">Empowering people with real-time guidance, AI voice instructions, and offline-first emergency protocols — built to save lives when every second counts.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('emergency').scrollIntoView({behavior:'smooth'})">
+          <span class="btn-icon">⚡</span> Explore Emergencies
+        </button>
+        <button class="btn-secondary" onclick="triggerSOS()">
+          <span class="btn-icon">🚨</span> Activate SOS
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num" data-target="6">0</div>
+          <div class="stat-label">Emergency Types</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="100">0</div>
+          <div class="stat-label">% Offline Ready</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="24">0</div>
+          <div class="stat-label">Hours Active</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="5">0</div>
+          <div class="stat-label">AI Voice Guides</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMERGENCY CATEGORIES -->
+  <section class="section emergency-section" id="emergency">
+    <div class="section-header">
+      <div class="section-tag">EMERGENCY PROTOCOLS</div>
+      <h2 class="section-title">Select Your <span class="accent">Emergency</span></h2>
+      <p class="section-desc">Tap any category to receive step-by-step survival guidance</p>
+    </div>
+    <div class="cards-grid">
+      <div class="e-card" onclick="openModal('fire')">
+        <div class="card-glow fire-glow"></div>
+        <div class="card-icon">🔥</div>
+        <div class="card-status"><span class="status-dot red"></span>HIGH RISK</div>
+        <h3>Fire Emergency</h3>
+        <p>Evacuation protocols and smoke survival techniques</p>
+        <div class="card-footer">
+          <span class="card-steps">6 Survival Steps</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+      <div class="e-card" onclick="openModal('earthquake')">
+        <div class="card-glow quake-glow"></div>
+        <div class="card-icon">🌍</div>
+        <div class="card-status"><span class="status-dot yellow"></span>CRITICAL</div>
+        <h3>Earthquake</h3>
+        <p>Drop, cover and hold protocols for seismic events</p>
+        <div class="card-footer">
+          <span class="card-steps">7 Survival Steps</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+      <div class="e-card" onclick="openModal('heart')">
+        <div class="card-glow heart-glow"></div>
+        <div class="card-icon">❤️</div>
+        <div class="card-status"><span class="status-dot red"></span>URGENT</div>
+        <h3>Heart Attack</h3>
+        <p>First response CPR and cardiac emergency steps</p>
+        <div class="card-footer">
+          <span class="card-steps">5 Survival Steps</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+      <div class="e-card" onclick="openModal('accident')">
+        <div class="card-glow accident-glow"></div>
+        <div class="card-icon">🚗</div>
+        <div class="card-status"><span class="status-dot orange"></span>MODERATE</div>
+        <h3>Road Accident</h3>
+        <p>First aid, scene safety and rescue coordination</p>
+        <div class="card-footer">
+          <span class="card-steps">6 Survival Steps</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+      <div class="e-card" onclick="openModal('women')">
+        <div class="card-glow women-glow"></div>
+        <div class="card-icon">🛡️</div>
+        <div class="card-status"><span class="status-dot cyan"></span>SAFETY</div>
+        <h3>Women Safety</h3>
+        <p>Self-defence, alerting and rapid escape protocols</p>
+        <div class="card-footer">
+          <span class="card-steps">6 Safety Steps</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+      <div class="e-card" onclick="openModal('flood')">
+        <div class="card-glow flood-glow"></div>
+        <div class="card-icon">🌊</div>
+        <div class="card-status"><span class="status-dot blue"></span>ALERT</div>
+        <h3>Flood Rescue</h3>
+        <p>Water survival, evacuation routes and rescue signals</p>
+        <div class="card-footer">
+          <span class="card-steps">6 Survival Steps</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOS PANIC MODE -->
+  <section class="section sos-section" id="sos">
+    <div class="sos-bg-grid"></div>
+    <div class="section-header">
+      <div class="section-tag">PANIC MODE</div>
+      <h2 class="section-title">Emergency <span class="accent">SOS</span> Activation</h2>
+      <p class="section-desc">Press and hold for 2 seconds to activate emergency mode</p>
+    </div>
+    <div class="sos-container">
+      <div class="sos-rings">
+        <div class="sos-ring sr1"></div>
+        <div class="sos-ring sr2"></div>
+        <div class="sos-ring sr3"></div>
+      </div>
+      <button class="sos-btn" id="sosBtn"
+        onmousedown="startSOSHold()" onmouseup="cancelSOSHold()"
+        ontouchstart="startSOSHold(event)" ontouchend="cancelSOSHold()">
+        <div class="sos-btn-inner">
+          <div class="sos-icon">🆘</div>
+          <div class="sos-text">SOS</div>
+          <div class="sos-sub">HOLD 2s</div>
+        </div>
+        <svg class="sos-progress" viewBox="0 0 200 200">
+          <circle class="sos-track" cx="100" cy="100" r="88"/>
+          <circle class="sos-fill" id="sosFill" cx="100" cy="100" r="88"/>
+        </svg>
+      </button>
+      <div class="sos-info">
+        <div class="sos-info-card">
+          <div class="info-icon">📍</div>
+          <div class="info-text">
+            <div class="info-title">Location</div>
+            <div class="info-val">GPS Active</div>
+          </div>
+        </div>
+        <div class="sos-info-card">
+          <div class="info-icon">📡</div>
+          <div class="info-text">
+            <div class="info-title">Signal</div>
+            <div class="info-val">Online</div>
+          </div>
+        </div>
+        <div class="sos-info-card">
+          <div class="info-icon">🔋</div>
+          <div class="info-text">
+            <div class="info-title">Battery</div>
+            <div class="info-val">High</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SOS OVERLAY -->
+    <div class="sos-overlay" id="sosOverlay">
+      <div class="overlay-content">
+        <div class="overlay-siren">🚨</div>
+        <h2 class="overlay-title">EMERGENCY MODE ACTIVATED</h2>
+        <p class="overlay-sub">Alerting emergency contacts &amp; services...</p>
+        <div class="overlay-bars">
+          <div class="bar b1"></div>
+          <div class="bar b2"></div>
+          <div class="bar b3"></div>
+          <div class="bar b4"></div>
+          <div class="bar b5"></div>
+          <div class="bar b6"></div>
+          <div class="bar b7"></div>
+        </div>
+        <div class="overlay-contacts">
+          <a href="tel:112" class="oc-btn">📞 112 — Emergency</a>
+          <a href="tel:108" class="oc-btn">🚑 108 — Ambulance</a>
+          <a href="tel:100" class="oc-btn">👮 100 — Police</a>
+        </div>
+        <button class="overlay-cancel" onclick="cancelSOS()">✕ Cancel Emergency</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOICE GUIDANCE SYSTEM -->
+  <section class="section voice-section" id="voice">
+    <div class="section-header">
+      <div class="section-tag">AI SYSTEM</div>
+      <h2 class="section-title">Voice <span class="accent">Guidance</span> Engine</h2>
+      <p class="section-desc">Real-time AI-powered spoken emergency instructions</p>
+    </div>
+    <div class="voice-panel">
+      <div class="voice-left">
+        <div class="mic-container" id="micContainer">
+          <div class="mic-ring mr1"></div>
+          <div class="mic-ring mr2"></div>
+          <div class="mic-ring mr3"></div>
+          <button class="mic-btn" id="micBtn" onclick="toggleVoice()">
+            <span class="mic-icon">🎙️</span>
+          </button>
+        </div>
+        <div class="voice-status" id="voiceStatus">
+          <span class="vs-dot inactive"></span>
+          <span id="vsText">System Ready</span>
+        </div>
+        <div class="wave-container" id="waveContainer">
+          <div class="wave-bar" style="--i:1"></div>
+          <div class="wave-bar" style="--i:2"></div>
+          <div class="wave-bar" style="--i:3"></div>
+          <div class="wave-bar" style="--i:4"></div>
+          <div class="wave-bar" style="--i:5"></div>
+          <div class="wave-bar" style="--i:6"></div>
+          <div class="wave-bar" style="--i:7"></div>
+          <div class="wave-bar" style="--i:8"></div>
+          <div class="wave-bar" style="--i:9"></div>
+          <div class="wave-bar" style="--i:10"></div>
+          <div class="wave-bar" style="--i:11"></div>
+          <div class="wave-bar" style="--i:12"></div>
+        </div>
+      </div>
+      <div class="voice-right">
+        <div class="voice-selector">
+          <h3>Select Emergency Type</h3>
+          <div class="v-options">
+            <button class="v-opt active" data-voice="general" onclick="setVoiceType(this,'general')">🆘 General</button>
+            <button class="v-opt" data-voice="fire" onclick="setVoiceType(this,'fire')">🔥 Fire</button>
+            <button class="v-opt" data-voice="earthquake" onclick="setVoiceType(this,'earthquake')">🌍 Earthquake</button>
+            <button class="v-opt" data-voice="heart" onclick="setVoiceType(this,'heart')">❤️ Cardiac</button>
+            <button class="v-opt" data-voice="flood" onclick="setVoiceType(this,'flood')">🌊 Flood</button>
+            <button class="v-opt" data-voice="accident" onclick="setVoiceType(this,'accident')">🚗 Accident</button>
+          </div>
+        </div>
+        <div class="voice-script-box" id="voiceScriptBox">
+          <div class="script-header">
+            <span class="script-dot"></span>
+            CURRENT GUIDANCE SCRIPT
+          </div>
+          <p id="voiceScript">Stay calm. You are not alone. SafeStep voice guidance system is online and ready to assist. Select an emergency type and press Start Guidance to receive spoken instructions.</p>
+        </div>
+        <button class="btn-voice-start" id="voiceStartBtn" onclick="toggleVoice()">
+          <span id="voiceBtnText">▶ Start Guidance</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFLINE MODE -->
+  <section class="section offline-section" id="offline">
+    <div class="section-header">
+      <div class="section-tag">RESILIENCE</div>
+      <h2 class="section-title">Offline <span class="accent">Emergency</span> Mode</h2>
+      <p class="section-desc">Fully functional without internet — cached for zero-network survival</p>
+    </div>
+    <div class="offline-panel">
+      <div class="offline-status-card">
+        <div class="os-icon">📡</div>
+        <div class="os-info">
+          <div class="os-title">Network Status</div>
+          <div class="os-val" id="networkStatus">Checking...</div>
+        </div>
+        <div class="os-badge" id="networkBadge">●</div>
+      </div>
+      <div class="offline-features">
+        <div class="off-feat"><div class="of-icon">✅</div><div class="of-text">Emergency cards cached locally</div></div>
+        <div class="off-feat"><div class="of-icon">✅</div><div class="of-text">Voice guidance works offline</div></div>
+        <div class="off-feat"><div class="of-icon">✅</div><div class="of-text">SOS alerts stored for later send</div></div>
+        <div class="off-feat"><div class="of-icon">✅</div><div class="of-text">Emergency contacts always visible</div></div>
+        <div class="off-feat"><div class="of-icon">✅</div><div class="of-text">Service Worker registered</div></div>
+        <div class="off-feat"><div class="of-icon">✅</div><div class="of-text">Zero dependency — pure HTML/JS/CSS</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMERGENCY CONTACTS -->
+  <section class="section contacts-section" id="contacts">
+    <div class="section-header">
+      <div class="section-tag">RAPID RESPONSE</div>
+      <h2 class="section-title">Emergency <span class="accent">Contacts</span></h2>
+      <p class="section-desc">One-tap connection to life-saving services</p>
+    </div>
+    <div class="contacts-grid">
+      <div class="contact-card">
+        <div class="cc-glow red-g"></div>
+        <div class="cc-icon">🚑</div>
+        <div class="cc-info"><h3>Ambulance</h3><p>Medical Emergency Response</p><div class="cc-number">108</div></div>
+        <a href="tel:108" class="cc-call red-call"><span>📞</span> Call Now</a>
+      </div>
+      <div class="contact-card">
+        <div class="cc-glow blue-g"></div>
+        <div class="cc-icon">👮</div>
+        <div class="cc-info"><h3>Police</h3><p>Law Enforcement Emergency</p><div class="cc-number">100</div></div>
+        <a href="tel:100" class="cc-call blue-call"><span>📞</span> Call Now</a>
+      </div>
+      <div class="contact-card">
+        <div class="cc-glow pink-g"></div>
+        <div class="cc-icon">👩</div>
+        <div class="cc-info"><h3>Women Helpline</h3><p>Women Safety &amp; Security</p><div class="cc-number">1091</div></div>
+        <a href="tel:1091" class="cc-call pink-call"><span>📞</span> Call Now</a>
+      </div>
+      <div class="contact-card">
+        <div class="cc-glow orange-g"></div>
+        <div class="cc-icon">🏔️</div>
+        <div class="cc-info"><h3>Disaster Rescue</h3><p>NDRF — National Disaster Response</p><div class="cc-number">1078</div></div>
+        <a href="tel:1078" class="cc-call orange-call"><span>📞</span> Call Now</a>
+      </div>
+      <div class="contact-card">
+        <div class="cc-glow red-g"></div>
+        <div class="cc-icon">🔥</div>
+        <div class="cc-info"><h3>Fire Brigade</h3><p>Fire &amp; Rescue Operations</p><div class="cc-number">101</div></div>
+        <a href="tel:101" class="cc-call red-call"><span>📞</span> Call Now</a>
+      </div>
+      <div class="contact-card">
+        <div class="cc-glow cyan-g"></div>
+        <div class="cc-icon">🏥</div>
+        <div class="cc-info"><h3>Emergency Helpline</h3><p>Unified Emergency Response</p><div class="cc-number">112</div></div>
+        <a href="tel:112" class="cc-call cyan-call"><span>📞</span> Call Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUTURE FEATURES -->
+  <section class="section future-section" id="future">
+    <div class="section-header">
+      <div class="section-tag">ROADMAP 2025</div>
+      <h2 class="section-title">Future <span class="accent">Capabilities</span></h2>
+      <p class="section-desc">Next-gen features under active development</p>
+    </div>
+    <div class="future-grid">
+      <div class="future-card"><div class="fc-num">01</div><div class="fc-icon">🤖</div><h3>AI Situation Analyzer</h3><p>Camera-based real-time scene analysis to auto-detect emergency type and deploy relevant protocols</p><div class="fc-status">IN DEVELOPMENT</div></div>
+      <div class="future-card"><div class="fc-num">02</div><div class="fc-icon">🛸</div><h3>Drone Coordination</h3><p>Integration with rescue drone networks to drop supplies and relay victim coordinates to rescue teams</p><div class="fc-status">RESEARCH PHASE</div></div>
+      <div class="future-card"><div class="fc-num">03</div><div class="fc-icon">🧠</div><h3>Mental Health AI</h3><p>Post-trauma guided support powered by AI — calming voice therapy during and after emergencies</p><div class="fc-status">BETA SOON</div></div>
+      <div class="future-card"><div class="fc-num">04</div><div class="fc-icon">🌐</div><h3>Community Mesh Network</h3><p>Peer-to-peer emergency broadcasting when all infrastructure fails — device-to-device survival net</p><div class="fc-status">PROTOTYPING</div></div>
+      <div class="future-card"><div class="fc-num">05</div><div class="fc-icon">⌚</div><h3>Wearable Integration</h3><p>Smartwatch heartbeat monitoring — auto-SOS on cardiac anomaly detection without user input</p><div class="fc-status">IN DEVELOPMENT</div></div>
+      <div class="future-card"><div class="fc-num">06</div><div class="fc-icon">🗺️</div><h3>Live Evacuation Maps</h3><p>Dynamic route planning that avoids danger zones — updated in real-time from satellite feeds</p><div class="fc-status">ALPHA TESTING</div></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">SAFE<span class="accent">STEP</span></div>
+        <p>Smart Emergency Survival Assistant — built to protect lives with intelligence, speed, and resilience.</p>
+        <div class="footer-badges">
+          <span class="fbadge">🔒 Secure</span>
+          <span class="fbadge">📡 Offline Ready</span>
+          <span class="fbadge">🤖 AI Powered</span>
+        </div>
+      </div>
+      <div class="footer-links-col">
+        <h4>Emergencies</h4>
+        <ul>
+          <li><a href="#" onclick="openModal('fire'); return false;">Fire Emergency</a></li>
+          <li><a href="#" onclick="openModal('earthquake'); return false;">Earthquake</a></li>
+          <li><a href="#" onclick="openModal('heart'); return false;">Heart Attack</a></li>
+          <li><a href="#" onclick="openModal('flood'); return false;">Flood Rescue</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>Features</h4>
+        <ul>
+          <li><a href="#sos">SOS Mode</a></li>
+          <li><a href="#voice">Voice Guidance</a></li>
+          <li><a href="#offline">Offline Mode</a></li>
+          <li><a href="#contacts">Emergency Contacts</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 SafeStep. Built to save lives. Open-source innovation project.</p>
+      <div class="footer-pulse">
+        <span class="fp-dot"></span>
+        <span>All Systems Operational</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-box" id="modalBox">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-icon" id="modalIcon">🔥</div>
+      <h2 class="modal-title" id="modalTitle">Fire Emergency</h2>
+      <p class="modal-desc" id="modalDesc">Survival protocol activated</p>
+      <div class="modal-steps" id="modalSteps"></div>
+      <button class="modal-voice-btn" id="modalVoiceBtn" onclick="speakModalContent()">
+        🎙️ Read Aloud
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
